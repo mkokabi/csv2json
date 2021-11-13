@@ -5,7 +5,7 @@ using Xunit;
 
 namespace csv2jsontests
 {
-  public class convertor
+  public class C
   {
     public int P1 { get; set; }
     public string P2 { get; set; }
@@ -13,7 +13,7 @@ namespace csv2jsontests
 
   public class J
   {
-    public List<convertor> convertor { get; set; } = new List<convertor>();
+    public List<C> C { get; set; } = new List<C>();
   }
 
   public class OJ
@@ -31,12 +31,12 @@ namespace csv2jsontests
         'Instructions':[
             {
               'SourceColumn':1,
-              'DestinationPath':'$.convertor',
+              'DestinationPath':'$.C',
               'DestinationField':'P1'
             },
             {
               'SourceColumn':2,
-              'DestinationPath':'$.convertor',
+              'DestinationPath':'$.C',
               'DestinationField':'P2'
             }
         ]
@@ -44,11 +44,11 @@ namespace csv2jsontests
       var csv = @"1,2
 3,4";
       var j = convertor.Convert<J>(instr, csv);
-      Assert.Equal(2, j.convertor.Count);
-      Assert.Equal(1, j.convertor[0].P1);
-      Assert.Equal("2", j.convertor[0].P2);
-      Assert.Equal(3, j.convertor[1].P1);
-      Assert.Equal("4", j.convertor[1].P2);
+      Assert.Equal(2, j.C.Count);
+      Assert.Equal(1, j.C[0].P1);
+      Assert.Equal("2", j.C[0].P2);
+      Assert.Equal(3, j.C[1].P1);
+      Assert.Equal("4", j.C[1].P2);
     }
 
     [Fact]
@@ -59,12 +59,12 @@ namespace csv2jsontests
         'Instructions':[
             {
               'SourceColumn':1,
-              'DestinationPath':'$.J.convertor',
+              'DestinationPath':'$.J.C',
               'DestinationField':'P1'
             },
             {
               'SourceColumn':2,
-              'DestinationPath':'$.J.convertor',
+              'DestinationPath':'$.J.C',
               'DestinationField':'P2'
             }
         ]
@@ -72,11 +72,11 @@ namespace csv2jsontests
       var csv = @"1,2
 3,4";
       var oj = convertor.Convert<OJ>(instr, csv);
-      Assert.Equal(2, oj.J.convertor.Count);
-      Assert.Equal(1, oj.J.convertor[0].P1);
-      Assert.Equal("2", oj.J.convertor[0].P2);
-      Assert.Equal(3, oj.J.convertor[1].P1);
-      Assert.Equal("4", oj.J.convertor[1].P2);
+      Assert.Equal(2, oj.J.C.Count);
+      Assert.Equal(1, oj.J.C[0].P1);
+      Assert.Equal("2", oj.J.C[0].P2);
+      Assert.Equal(3, oj.J.C[1].P1);
+      Assert.Equal("4", oj.J.C[1].P2);
     }
 
     [Fact]
@@ -87,13 +87,13 @@ namespace csv2jsontests
         'Instructions':[
             {
               'SourceColumn':1,
-              'DestinationPath':'$.J.convertor',
+              'DestinationPath':'$.J.C',
               'DestinationField':'P1',
               'DestinationLen': 2
             },
             {
               'SourceColumn':2,
-              'DestinationPath':'$.J.convertor',
+              'DestinationPath':'$.J.C',
               'DestinationField':'P2'
             }
         ]
@@ -103,6 +103,38 @@ namespace csv2jsontests
 
       var exception = Assert.Throws<ConvertException>(() => convertor.Convert<OJ>(instr, csv));
       Assert.Equal("Length validation in row 0", exception.Errors[0]);
+    }
+  }
+
+  public class RealisticUnitTest
+  {
+    [Fact]
+    public void TimesheetLoad()
+    {
+      Convertor convertor = new Convertor();
+      var instr = JsonConvert.DeserializeObject<InstructionSet>(@"{
+        'Instructions':[
+            {
+              'SourceColumn':1,
+              'DestinationPath':'$.TimesheetEntries',
+              'DestinationField':'EmployeeId'
+            },
+            {
+              'SourceColumn':2,
+              'DestinationPath':'$.TimesheetEntries',
+              'DestinationField':'EmployeeRecord'
+            }
+        ]
+      }");
+      var csv = @"11AA,2
+33CC,4";
+
+      var tsr = convertor.Convert<TimesheetResponse>(instr, csv);
+      Assert.Equal(2, tsr.TimesheetEntries.Count);
+      Assert.Equal("11AA", tsr.TimesheetEntries[0].EmployeeId);
+      Assert.Equal(2, tsr.TimesheetEntries[0].EmployeeRecord);
+      Assert.Equal("33CC", tsr.TimesheetEntries[1].EmployeeId);
+      Assert.Equal(4, tsr.TimesheetEntries[1].EmployeeRecord);
     }
   }
 }
