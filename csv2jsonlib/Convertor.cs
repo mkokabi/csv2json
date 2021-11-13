@@ -18,6 +18,7 @@ namespace csv2jsonlib
   {
     public string Path { get; set; }
     public string Property { get; set; }
+    public string Object { get; set; }
     public int? Len { get; set; }
   }
   public class InstructionSet
@@ -60,18 +61,23 @@ namespace csv2jsonlib
         JArray jArray = new JArray();
         for (int j = 0; j < row.Length; j++)
         {
-          var cell = row[j];
           var sourceColumn = inst.Instructions[j].SourceColumn;
-          var destProperty = inst.Instructions[j].Destination.Property;
-          var destLen = inst.Instructions[j].Destination.Len;
-          var destPath = inst.Instructions[j].Destination.Path;
-          jArray = (jo.SelectToken(destPath) as JArray);
-          if (destLen.HasValue && row[sourceColumn - 1].Length > destLen)
+          var dest = inst.Instructions[j].Destination;
+          jArray = (jo.SelectToken(dest.Path) as JArray);
+          if (dest.Len.HasValue && row[sourceColumn - 1].Length > dest.Len)
           {
             errors.Add($"Length validation in row {i}");
             continue;
           }
-          properties.Add(new JProperty(destProperty, row[sourceColumn - 1]));
+          if (dest.Object == null)
+          {
+            properties.Add(new JProperty(dest.Property, row[sourceColumn - 1]));
+          }
+          else
+          {
+            properties.Add(new JProperty(dest.Object, 
+              new JObject(new JProperty(dest.Property, row[sourceColumn - 1]))));
+          }
         }
         jArray.Add(new JObject(properties.ToArray()));
       }

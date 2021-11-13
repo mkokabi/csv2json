@@ -139,18 +139,28 @@ namespace csv2jsontests
                 'Path':'$.timesheetEntries',
                 'Property':'EmployeeRecord'
               }
+            },
+            {
+              'SourceColumn':3,
+              'Destination': {
+                'Path':'$.timesheetEntries',
+                'Property':'TL_QUANTITY',
+                'Object': 'fields'
+              }
             }
         ]
       }");
-      var csv = @"11AA,2
-33CC,4";
+      var csv = @"11AA,2,5
+33CC,4,6";
 
       var tsr = convertor.Convert<TimesheetResponse>(instr, csv);
       Assert.Equal(2, tsr.TimesheetEntries.Count);
       Assert.Equal("11AA", tsr.TimesheetEntries[0].EmployeeId);
       Assert.Equal(2, tsr.TimesheetEntries[0].EmployeeRecord);
+      Assert.Equal("5", tsr.TimesheetEntries[0].Fields["TL_QUANTITY"]);
       Assert.Equal("33CC", tsr.TimesheetEntries[1].EmployeeId);
       Assert.Equal(4, tsr.TimesheetEntries[1].EmployeeRecord);
+      Assert.Equal("6", tsr.TimesheetEntries[1].Fields["TL_QUANTITY"]);
     }
   }
 }
