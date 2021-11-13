@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace csv2jsonlib
@@ -59,7 +60,7 @@ namespace csv2jsonlib
         ja.Add(new JObject(lo.ToArray()));
       }
 
-      return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jo.ToString());
+      return JsonConvert.DeserializeObject<T>(jo.ToString());
     }
   }
 }
