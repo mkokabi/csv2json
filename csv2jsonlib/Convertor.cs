@@ -66,7 +66,7 @@ namespace csv2jsonlib
           jArray = (jo.SelectToken(dest.Path) as JArray);
           if (dest.Len.HasValue && row[sourceColumn - 1].Length > dest.Len)
           {
-            errors.Add($"Length validation in row {i}");
+            errors.Add($"Length validation in row {i} column {j}");
             continue;
           }
           if (dest.Object == null)

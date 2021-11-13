@@ -114,7 +114,7 @@ namespace csv2jsontests
 3,4";
 
       var exception = Assert.Throws<ConvertException>(() => convertor.Convert<OJ>(instr, csv));
-      Assert.Equal("Length validation in row 0", exception.Errors[0]);
+      Assert.Equal("Length validation in row 0 column 0", exception.Errors[0]);
     }
   }
 
