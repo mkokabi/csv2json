@@ -33,14 +33,14 @@ namespace csv2jsontests
               'SourceColumn':1,
               'Destination': {
                 'Path': '$.C',
-                'Field':'P1'
+                'Property':'P1'
               }
             },
             {
               'SourceColumn':2,
               'Destination': {
                 'Path': '$.C',
-                'Field':'P2'
+                'Property':'P2'
               }
             }
         ]
@@ -65,14 +65,14 @@ namespace csv2jsontests
               'SourceColumn':1,
               'Destination': {
                 'Path': '$.J.C',
-                'Field':'P1'
+                'Property':'P1'
               }
             },
             {
               'SourceColumn':2,
               'Destination': {
                 'Path':'$.J.C',
-                'Field':'P2'
+                'Property':'P2'
               }
             }
         ]
@@ -97,7 +97,7 @@ namespace csv2jsontests
               'SourceColumn':1,
               'Destination': {
                 'Path':'$.J.C',
-                'Field':'P1',
+                'Property':'P1',
                 'Len': 2
               }
             },
@@ -105,7 +105,7 @@ namespace csv2jsontests
               'SourceColumn':2,
               'Destination': {
                 'Path':'$.J.C',
-                'Field':'P2'
+                'Property':'P2'
               }
             }
         ]
@@ -130,14 +130,14 @@ namespace csv2jsontests
               'SourceColumn':1,
               'Destination': {
                 'Path':'$.timesheetEntries',
-                'Field':'EmployeeId'
+                'Property':'EmployeeId'
               }
             },
             {
               'SourceColumn':2,
               'Destination': {
                 'Path':'$.timesheetEntries',
-                'Field':'EmployeeRecord'
+                'Property':'EmployeeRecord'
               }
             }
         ]

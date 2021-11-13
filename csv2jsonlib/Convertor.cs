@@ -17,7 +17,7 @@ namespace csv2jsonlib
   public class Destination
   {
     public string Path { get; set; }
-    public string Field { get; set; }
+    public string Property { get; set; }
     public int? Len { get; set; }
   }
   public class InstructionSet
@@ -62,7 +62,7 @@ namespace csv2jsonlib
         {
           var cell = row[j];
           var sourceColumn = inst.Instructions[j].SourceColumn;
-          var destField = inst.Instructions[j].Destination.Field;
+          var destProperty = inst.Instructions[j].Destination.Property;
           var destLen = inst.Instructions[j].Destination.Len;
           var destPath = inst.Instructions[j].Destination.Path;
           jArray = (jo.SelectToken(destPath) as JArray);
@@ -71,7 +71,7 @@ namespace csv2jsonlib
             errors.Add($"Length validation in row {i}");
             continue;
           }
-          properties.Add(new JProperty(destField, row[sourceColumn - 1]));
+          properties.Add(new JProperty(destProperty, row[sourceColumn - 1]));
         }
         jArray.Add(new JObject(properties.ToArray()));
       }
