@@ -31,13 +31,17 @@ namespace csv2jsontests
         'Instructions':[
             {
               'SourceColumn':1,
-              'DestinationPath':'$.C',
-              'DestinationField':'P1'
+              'Destination': {
+                'Path': '$.C',
+                'Field':'P1'
+              }
             },
             {
               'SourceColumn':2,
-              'DestinationPath':'$.C',
-              'DestinationField':'P2'
+              'Destination': {
+                'Path': '$.C',
+                'Field':'P2'
+              }
             }
         ]
       }");
@@ -59,13 +63,17 @@ namespace csv2jsontests
         'Instructions':[
             {
               'SourceColumn':1,
-              'DestinationPath':'$.J.C',
-              'DestinationField':'P1'
+              'Destination': {
+                'Path': '$.J.C',
+                'Field':'P1'
+              }
             },
             {
               'SourceColumn':2,
-              'DestinationPath':'$.J.C',
-              'DestinationField':'P2'
+              'Destination': {
+                'Path':'$.J.C',
+                'Field':'P2'
+              }
             }
         ]
       }");
@@ -87,14 +95,18 @@ namespace csv2jsontests
         'Instructions':[
             {
               'SourceColumn':1,
-              'DestinationPath':'$.J.C',
-              'DestinationField':'P1',
-              'DestinationLen': 2
+              'Destination': {
+                'Path':'$.J.C',
+                'Field':'P1',
+                'Len': 2
+              }
             },
             {
               'SourceColumn':2,
-              'DestinationPath':'$.J.C',
-              'DestinationField':'P2'
+              'Destination': {
+                'Path':'$.J.C',
+                'Field':'P2'
+              }
             }
         ]
       }");
@@ -116,13 +128,17 @@ namespace csv2jsontests
         'Instructions':[
             {
               'SourceColumn':1,
-              'DestinationPath':'$.TimesheetEntries',
-              'DestinationField':'EmployeeId'
+              'Destination': {
+                'Path':'$.timesheetEntries',
+                'Field':'EmployeeId'
+              }
             },
             {
               'SourceColumn':2,
-              'DestinationPath':'$.TimesheetEntries',
-              'DestinationField':'EmployeeRecord'
+              'Destination': {
+                'Path':'$.timesheetEntries',
+                'Field':'EmployeeRecord'
+              }
             }
         ]
       }");
