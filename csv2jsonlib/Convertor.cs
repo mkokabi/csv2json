@@ -49,31 +49,28 @@ namespace csv2jsonlib
       T result = new T();
 
       JObject jo = JObject.FromObject(result);
-      // int i = 0;
-      var dp = inst.Instructions[0].DestinationPath;
       var errors = new List<string>();
       for (var i = 0; i < tbl.Count; i++)
-      // foreach (var row in tbl)
       {
         var row = tbl[i];
-        var lo = new List<JProperty>();
-        int j = 0;
-        JToken jt = jo.SelectToken(dp);
-        JArray ja = (jt as JArray);
-        foreach (var cell in row)
+        var properties = new List<JProperty>();
+        JArray jArray = new JArray();
+        for (int j = 0; j < row.Length; j++)
         {
-          var s = inst.Instructions[j].SourceColumn;
-          var df = inst.Instructions[j].DestinationField;
-          var dl = inst.Instructions[j++].DestinationLen;
-          if (dl.HasValue && row[s - 1].Length > dl)
+          var cell = row[j];
+          var sourceColumn = inst.Instructions[j].SourceColumn;
+          var destField = inst.Instructions[j].DestinationField;
+          var destLen = inst.Instructions[j].DestinationLen;
+          var destPath = inst.Instructions[j].DestinationPath;
+          jArray = (jo.SelectToken(destPath) as JArray);
+          if (destLen.HasValue && row[sourceColumn - 1].Length > destLen)
           {
             errors.Add($"Length validation in row {i}");
             continue;
           }
-          JProperty jp = new JProperty(df, row[s - 1]);
-          lo.Add(jp);
+          properties.Add(new JProperty(destField, row[sourceColumn - 1]));
         }
-        ja.Add(new JObject(lo.ToArray()));
+        jArray.Add(new JObject(properties.ToArray()));
       }
       if (errors.Count > 0)
       {
