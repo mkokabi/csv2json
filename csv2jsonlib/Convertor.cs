@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using CsvHelper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,19 +24,21 @@ namespace csv2jsonlib
   {
     private List<List<string>> CsvToTable(string csv)
     {
-      var result = new List<List<string>>();
-      var rows = csv.Split(Environment.NewLine);
-      foreach (var row in rows)
+      using (var stringReader = new StringReader(csv))
+      using (var csvReader = new CsvReader(stringReader, CultureInfo.InvariantCulture))
       {
-        var list = new List<String>();
-        var cells = row.Split(",");
-        foreach (var cell in cells)
+        var result = new List<List<string>>();
+        while (csvReader.Read())
         {
-          list.Add(cell);
+          var list = new List<String>();
+          for (int i = 0; i < csvReader.Parser.Count; i++)
+          {
+              list.Add(csvReader[i]);
+          }
+          result.Add(list);
         }
-        result.Add(list);
+        return result;
       }
-      return result;
     }
 
     public T Convert<T>(InstructionSet inst, string csv) where T : class, new()
